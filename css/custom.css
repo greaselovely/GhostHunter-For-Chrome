@@ -2,3 +2,16 @@
     opacity: 0;
     transition: opacity 0.6s ease-in-out;
 }
+
+body {
+    min-width: 250px; /* Adjust the width as needed */
+    min-height: 20px; /* Adjust the height as needed */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* If you have a specific container for your list, you can set a minimum height for it */
+#domain-list {
+    min-height: 150px; /* Adjust as needed */
+    /* Other styling rules for your domain list */
+}

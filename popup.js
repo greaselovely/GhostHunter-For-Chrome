@@ -1,5 +1,7 @@
+
+
 document.addEventListener('DOMContentLoaded', function() {
-    browser.runtime.sendMessage({ message: "getDomainData" }).then(response => {
+    chrome.runtime.sendMessage({ message: "getDomainData" }).then(response => {
         let domains = response.data;
         let container = document.getElementById('domain-list');
         container.innerHTML = domains.join('<br>');
@@ -8,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('clearButton').addEventListener('click', function() {
-    browser.runtime.sendMessage({ message: "clearDomainData" }).then(response => {
+    chrome.runtime.sendMessage({ message: "clearDomainData" }).then(response => {
         if (response.success) {
             document.getElementById('domain-list').textContent = '';
             updateCopyButtonState();

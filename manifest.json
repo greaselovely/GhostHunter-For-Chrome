@@ -1,21 +1,22 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "GhostHunter",
   "version": "1.0",
   "description": "Track and log domain requests for a specific tab.",
   "permissions": [
-    "storage",
-    "activeTab",
-    "tabs",
     "webRequest",
-    "webRequestBlocking",
+    "storage",
+    "tabs",
+    "declarativeNetRequest", // Permission for declarativeNetRequest API
+    "declarativeNetRequestFeedback" // Permission for feedback from declarativeNetRequest API
+  ],
+  "host_permissions": [
     "<all_urls>"
   ],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/GhostHunter16x16.png",
@@ -27,5 +28,12 @@
     "16": "icons/GhostHunter16x16.png",
     "48": "icons/GhostHunter48x48.png",
     "128": "icons/GhostHunter128x128.png"
+  },
+  "declarative_net_request": {
+    "rule_resources": [{
+      "id": "ruleset_1",
+      "enabled": true,
+      "path": "rules.json"
+    }]
   }
 }
