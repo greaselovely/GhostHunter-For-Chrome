@@ -7,8 +7,8 @@
     "webRequest",
     "storage",
     "tabs",
-    "declarativeNetRequest", // Permission for declarativeNetRequest API
-    "declarativeNetRequestFeedback" // Permission for feedback from declarativeNetRequest API
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
   ],
   "host_permissions": [
     "<all_urls>"
