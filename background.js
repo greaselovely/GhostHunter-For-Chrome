@@ -1,19 +1,5 @@
 // background.js
 
-// let settingsInMemory = { apiKey: "", webServerAddress: "" }; // To hold both the API key and web server address
-
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-//     if (request.action === "storeSettings") {
-//         // Store both the API key and web server address in memory
-//         settingsInMemory.apiKey = request.key;
-//         settingsInMemory.webServerAddress = request.address;
-//         console.log('Settings received and stored in memory', settingsInMemory);
-//         sendResponse({status: "success"});
-//     }
-// });
-
-
-// Listen for messages from the popup
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
       if (request.message === "getDomainData") {
@@ -45,7 +31,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   }
 });
 
-
 chrome.webRequest.onBeforeRequest.addListener(
   function(details) {
       if (details.url.startsWith('http://') || details.url.startsWith('https://')) {
@@ -61,4 +46,3 @@ chrome.webRequest.onBeforeRequest.addListener(
   },
   { urls: ["<all_urls>"] }
 );
-

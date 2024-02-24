@@ -27,8 +27,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+chrome.runtime.sendMessage({ message: "getDomainData" }).then(response => {
+    const domains = response.data;
+    const container = document.getElementById('domain-list');
+    container.innerHTML = domains.join('<br>');
+    updateCopyButtonState(domains.length === 0);
+});
 
-// Upload domains to the server
+document.getElementById('clearButton').addEventListener('click', function() {
+    chrome.runtime.sendMessage({ message: "clearDomainData" }).then(response => {
+        if (response.success) {
+            document.getElementById('domain-list').textContent = '';
+            updateCopyButtonState(true);
+            updateUploadButtonState(true);
+        }
+    });
+});
+
+document.getElementById('copyButton').addEventListener('click', function() {
+    const domainList = document.getElementById('domain-list').innerText;
+    if (domainList.trim() !== '') {
+        navigator.clipboard.writeText(domainList).then(showCopyConfirmation);
+    }
+});
+
 document.getElementById('uploadButton').addEventListener('click', function() {
     // Retrieve settings from chrome.storage.local before attempting to upload
     chrome.storage.local.get(['webServerAddress', 'apiKey'], function(result) {
@@ -71,38 +93,6 @@ document.getElementById('uploadButton').addEventListener('click', function() {
     });
 });
 
-
-
-chrome.runtime.sendMessage({ message: "getDomainData" }).then(response => {
-    const domains = response.data;
-    const container = document.getElementById('domain-list');
-    container.innerHTML = domains.join('<br>');
-    updateCopyButtonState(domains.length === 0);
-});
-
-document.getElementById('clearButton').addEventListener('click', function() {
-    chrome.runtime.sendMessage({ message: "clearDomainData" }).then(response => {
-        if (response.success) {
-            document.getElementById('domain-list').textContent = '';
-            updateCopyButtonState(true);
-            updateUploadButtonState(true);
-        }
-    });
-});
-
-document.getElementById('copyButton').addEventListener('click', function() {
-    const domainList = document.getElementById('domain-list').innerText;
-    if (domainList.trim() !== '') {
-        navigator.clipboard.writeText(domainList).then(showCopyConfirmation);
-    }
-});
-
-document.getElementById('uploadButton').addEventListener('click', function() {
-    // showUploadConfirmation();
-});
-
-
-
 function loadSettings() {
     chrome.storage.local.get(['webServerAddress', 'apiKey'], function(result) {
         if (result.webServerAddress && result.webServerAddress.trim() !== '') {
@@ -125,7 +115,6 @@ function loadDomainData() {
         }
     });
 }
-
 
 function updateCopyButtonState(isDisabled) {
     const copyButton = document.getElementById('copyButton');
