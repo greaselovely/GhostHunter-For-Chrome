@@ -30,7 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
 chrome.runtime.sendMessage({ message: "getDomainData" }).then(response => {
     const domains = response.data;
     const container = document.getElementById('domain-list');
-    container.innerHTML = domains.join('<br>');
+    container.textContent = ''; // Clear existing content
+    domains.forEach(domain => {
+        const div = document.createElement('div');
+        div.textContent = domain;
+        container.appendChild(div);
+    });
     updateCopyButtonState(domains.length === 0);
 });
 
@@ -111,7 +116,12 @@ function loadDomainData() {
     chrome.storage.local.get({ uniqueDomains: [] }, function(result) {
         if (result.uniqueDomains && result.uniqueDomains.length > 0) {
             const container = document.getElementById('domain-list');
-            container.innerHTML = result.uniqueDomains.join('<br>');
+            container.textContent = ''; // Clear existing content
+            result.uniqueDomains.forEach(domain => {
+                const div = document.createElement('div');
+                div.textContent = domain; // Safely set text content
+                container.appendChild(div);
+            });
         }
     });
 }
